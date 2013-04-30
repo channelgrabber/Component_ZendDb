@@ -275,7 +275,7 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
      * Get last generated id
      *
      * @param  null $name Ignored
-     * @return int
+     * @return integer
      */
     public function getLastGeneratedValue($name = null)
     {

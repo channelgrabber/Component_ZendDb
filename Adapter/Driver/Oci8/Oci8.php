@@ -195,8 +195,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param  resource $resource
-     * @param  null     $isBuffered
+     * @param resource $resource
      * @return Result
      */
     public function createResult($resource, $isBuffered = null)
