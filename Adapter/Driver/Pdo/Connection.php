@@ -240,9 +240,6 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
                 case 'dbname':
                     $database = (string) $value;
                     break;
-                case 'charset':
-                    $charset    = (string) $value;
-                    break;
                 case 'driver_options':
                 case 'options':
                     $value = (array) $value;
@@ -269,9 +266,6 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
                     }
                     if (isset($port)) {
                         $dsn[] = "port={$port}";
-                    }
-                    if (isset($charset)) {
-                        $dsn[] = "charset={$charset}";
                     }
                     break;
             }
