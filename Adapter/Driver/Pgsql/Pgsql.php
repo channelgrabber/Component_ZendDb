@@ -217,11 +217,10 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Get last generated value
      *
-     * @param string $name
      * @return mixed
      */
-    public function getLastGeneratedValue($name = null)
+    public function getLastGeneratedValue()
     {
-        return $this->connection->getLastGeneratedValue($name);
+        return $this->connection->getLastGeneratedValue();
     }
 }

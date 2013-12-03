@@ -46,6 +46,11 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
     protected $inTransaction = false;
 
     /**
+     * @var string
+     */
+    protected $connectedDsn = null;
+
+    /**
      * Constructor
      *
      * @param array|\PDO|null $connectionParameters
@@ -240,6 +245,9 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
                 case 'dbname':
                     $database = (string) $value;
                     break;
+                case 'charset':
+                    $charset    = (string) $value;
+                    break;
                 case 'driver_options':
                 case 'options':
                     $value = (array) $value;
@@ -267,6 +275,9 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
                     if (isset($port)) {
                         $dsn[] = "port={$port}";
                     }
+                    if (isset($charset)) {
+                        $dsn[] = "charset={$charset}";
+                    }
                     break;
             }
             $dsn = $pdoDriver . ':' . implode(';', $dsn);
@@ -281,6 +292,7 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
             $this->resource = new \PDO($dsn, $username, $password, $options);
             $this->resource->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
+            $this->setConnectedDsn($dsn);
         } catch (\PDOException $e) {
             $code = $e->getCode();
             if (!is_long($code)) {
@@ -433,5 +445,36 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
             // do nothing
         }
         return false;
+    }
+
+    /**
+     * Get the dsn string for this connection
+     * @throws \Zend\Db\Adapter\Exception\RunTimeException
+     * @return string
+     */
+    public function getConnectedDsn()
+    {
+        if (!$this->connectedDsn) {
+            if (!$this->isConnected()) {
+                $this->connect();
+            }
+
+            if (!$this->connectedDsn) {
+                throw new Exception\RunTimeException("DSN has not been set for this Connection");
+            }
+        }
+
+        return $this->connectedDsn;
+    }
+
+    /**
+     * Set the DSN for the connection
+     * @param string $dsn
+     * @return $this
+     */
+    private function setConnectedDsn($dsn)
+    {
+        $this->connectedDsn = $dsn;
+        return $this;
     }
 }
