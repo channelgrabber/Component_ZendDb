@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -183,7 +183,7 @@ class Insert extends AbstractSql implements SqlInterface, PreparableSqlInterface
         }
 
         $sql = sprintf(
-            $this->specifications[self::SPECIFICATION_INSERT],
+            $this->specifications[static::SPECIFICATION_INSERT],
             $table,
             implode(', ', $columns),
             implode(', ', $values)
@@ -232,7 +232,7 @@ class Insert extends AbstractSql implements SqlInterface, PreparableSqlInterface
 
         $values = implode(', ', $values);
 
-        return sprintf($this->specifications[self::SPECIFICATION_INSERT], $table, $columns, $values);
+        return sprintf($this->specifications[static::SPECIFICATION_INSERT], $table, $columns, $values);
     }
 
     /**
